@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>View Pilot</title>
+</head>
+
+<body>
+	<h1>Data Pilot</h1>
+	<h2 th:text="'License Number: ' + ${datapilot.licenseNumber}" />
+	<h2 th:text="'Name			: ' + ${datapilot.name}" />
+	<h2 th:text="'Flyhour		: ' + ${datapilot.flyHour}" />
+	
+	<td><a th:href="@{/flight/add/{license_number}(license_number=${datapilot.licenseNumber})}">Add Flight</a></td> <br><br>
+	<td><a th:href="@{'/pilot/delete/' +${datapilot.licenseNumber}}">Delete Pilot</a></td> <br><br>
+	<td><a th:href="@{'/pilot/update/' + ${datapilot.licenseNumber}}">Update Pilot</a></td> <br><br>
+	
+	<h1>List Flight Experience</h1>
+
+	<!-- IF CUSTOMER IS ANONYMOUS -->
+	<div th:if="${dataflight.isEmpty()}">
+   		<div>Data Not Available, Add Flight?</div>
+   		<td><a th:href="@{/flight/add/{license_number}(license_number=${datapilot.licenseNumber})}">Click Here</a></td> <br><br>
+	</div>
+	
+	
+	<div th:if="${!dataflight.isEmpty()}">
+		<table>
+			<tr>
+				<th>Flight Number</th>
+				<th>Origin</th>
+				<th>Destination</th>
+				<th>Time</th>
+			</tr>
+			<tr th:each="dataflight : ${dataflight}">
+				<td th:text="${dataflight.flightNumber}" />
+				<td th:text="${dataflight.origin}" />
+				<td th:text="${dataflight.destination}" />
+				<td th:text="${dataflight.time}" />
+				<td><a th:href="@{'/flight/delete/' +${dataflight.id}}">Delete Flight</a></td>
+				<td><a th:href="@{'/flight/update/' +${dataflight.id}}">Update Flight</a></td>
+				<td><a th:href="@{/flight/view?id={id}(id=${dataflight.id})}">More Information...</a></td>
+			</tr>
+			
+		</table>
+		
+		
+		</div>
+</body>
+
+</html>
